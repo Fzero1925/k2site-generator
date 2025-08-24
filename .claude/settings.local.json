@@ -10,7 +10,16 @@
       "Bash(timeout:*)",
       "Bash(node:*)",
       "Bash(chmod:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(grep:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm install)"
     ],
     "deny": [],
     "ask": []

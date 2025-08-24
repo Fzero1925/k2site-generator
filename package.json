@@ -16,7 +16,9 @@
     "setup": "node setup-wizard.cjs",
     "quick-start": "node quick-start.cjs",
     "demo": "node demo.cjs",
-    "deploy": "node auto-deploy.cjs"
+    "deploy": "node auto-deploy.cjs",
+    "deploy:github": "node deploy-github-pages.cjs",
+    "generate": "node generate-sample.cjs"
   },
   "bin": {
     "k2site": "./dist/cli/index.js"
