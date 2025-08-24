@@ -18,10 +18,13 @@
     "demo": "node demo.cjs",
     "deploy": "node auto-deploy.cjs",
     "deploy:github": "node deploy-github-pages.cjs",
-    "generate": "node generate-sample.cjs"
+    "generate": "node generate-sample.cjs",
+    "create": "node create-user-site.cjs",
+    "postinstall": "chmod +x bin/k2site.js || echo 'Setting permissions...'",
+    "k2site": "node bin/k2site.js"
   },
   "bin": {
-    "k2site": "./dist/cli/index.js"
+    "k2site": "./bin/k2site.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",

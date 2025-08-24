@@ -4,7 +4,8 @@
 
 ![K2Site Logo](https://img.shields.io/badge/K2Site-v1.0.0-blue?style=for-the-badge&logo=astro)
 
-**从关键词到网站，一键生成SEO优化的内容平台**
+**输入关键词 → 自动建站 → 一键部署**  
+**让任何人都能快速创建专业网站**
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9+-blue.svg)](https://www.typescriptlang.org/)
@@ -38,32 +39,39 @@ K2Site 是一个革命性的网站生成器，能够从简单的关键词自动�
 
 ## 🚀 快速开始
 
-### ⚡ 5分钟快速体验
+### 🌟 方式一：创建您的专属网站（推荐）
 
 ```bash
-# 1. 克隆项目
-git clone https://github.com/your-org/k2site.git
-cd k2site
+# 1. 全局安装K2Site CLI
+npm install -g https://github.com/Fzero1925/k2site-generator.git
 
-# 2. 一键启动（自动安装依赖、生成内容、启动服务器）
+# 2. 创建新网站项目
+k2site create my-awesome-blog
+
+# 3. 基于您的关键词生成内容  
+cd my-awesome-blog
+k2site generate -k "机器学习" "编程教程" "技术分享"
+
+# 4. 启动和部署
+k2site dev      # 开发预览
+k2site deploy   # 一键部署
+```
+
+### 🎬 方式二：体验功能演示
+
+```bash
+# 1. 克隆项目查看源码
+git clone https://github.com/Fzero1925/k2site-generator.git
+cd k2site-generator
+
+# 2. 快速功能演示
+node demo.cjs
+
+# 3. 完整开发体验
 node quick-start.cjs
 ```
 
-🎉 就是这么简单！脚本会自动检查环境、安装依赖、生成演示内容并启动开发服务器。
-
-### 🎬 演示模式
-
-```bash
-# 快速查看项目所有功能
-node demo.cjs
-```
-
-### 🔧 配置向导
-
-```bash
-# 交互式配置项目设置
-node setup-wizard.cjs
-```
+🎯 **重要**: 方式一创建您自己的网站，方式二仅用于学习和体验！
 
 ### 系统要求
 
