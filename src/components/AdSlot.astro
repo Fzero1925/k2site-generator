@@ -1,0 +1,169 @@
+---
+interface Props {
+  slot: string;
+  className?: string;
+  style?: 'display' | 'in-article' | 'matched-content';
+  responsive?: boolean;
+  lazy?: boolean;
+}
+
+const { 
+  slot, 
+  className = '', 
+  style = 'display', 
+  responsive = true, 
+  lazy = true 
+} = Astro.props;
+
+const config = (await import('@/lib/config')).getConfig();
+
+if (!config.monetization.adsense.enabled || !config.monetization.adsense.clientId) {
+  return null;
+}
+
+const adStyles = {
+  display: 'display:block',
+  'in-article': 'display:block; text-align:center;',
+  'matched-content': 'display:block'
+};
+
+const adStyle = adStyles[style] || adStyles.display;
+const dataAdFormat = responsive ? 'auto' : '';
+const dataFullWidthResponsive = responsive ? 'true' : 'false';
+---
+
+<div class={`ad-container ${className}`} data-ad-slot={slot}>
+  {lazy ? (
+    <div class="ad-placeholder" data-ad-lazy="true">
+      <ins class="adsbygoogle"
+           style={adStyle}
+           data-ad-client={config.monetization.adsense.clientId}
+           data-ad-slot={slot}
+           data-ad-format={dataAdFormat}
+           data-full-width-responsive={dataFullWidthResponsive}>
+      </ins>
+    </div>
+  ) : (
+    <ins class="adsbygoogle"
+         style={adStyle}
+         data-ad-client={config.monetization.adsense.clientId}
+         data-ad-slot={slot}
+         data-ad-format={dataAdFormat}
+         data-full-width-responsive={dataFullWidthResponsive}>
+    </ins>
+  )}
+</div>
+
+{config.monetization.adsense.enabled && (
+  <script>
+    // AdSense script will be loaded asynchronously
+    if (typeof window !== 'undefined') {
+      // Lazy loading implementation
+      const lazyAds = document.querySelectorAll('[data-ad-lazy="true"]');
+      
+      if (lazyAds.length > 0) {
+        const adObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const placeholder = entry.target as HTMLElement;
+              const adElement = placeholder.querySelector('.adsbygoogle');
+              
+              if (adElement && !adElement.hasAttribute('data-adsbygoogle-status')) {
+                // Load AdSense script if not already loaded
+                if (!window.adsbygoogle) {
+                  const script = document.createElement('script');
+                  script.async = true;
+                  script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + 
+                              document.querySelector('[data-ad-client]')?.getAttribute('data-ad-client');
+                  document.head.appendChild(script);
+                  
+                  script.onload = () => {
+                    (window.adsbygoogle = window.adsbygoogle || []).push({});
+                  };
+                } else {
+                  (window.adsbygoogle = window.adsbygoogle || []).push({});
+                }
+                
+                placeholder.removeAttribute('data-ad-lazy');
+                adObserver.unobserve(entry.target);
+              }
+            }
+          });
+        }, {
+          rootMargin: '200px',
+          threshold: 0.1
+        });
+        
+        lazyAds.forEach(ad => adObserver.observe(ad));
+      } else {
+        // Non-lazy ads
+        const nonLazyAds = document.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])');
+        if (nonLazyAds.length > 0) {
+          // Load AdSense script immediately for non-lazy ads
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + 
+                      document.querySelector('[data-ad-client]')?.getAttribute('data-ad-client');
+          document.head.appendChild(script);
+          
+          script.onload = () => {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+          };
+        }
+      }
+    }
+  </script>
+)}
+
+<style>
+.ad-container {
+  @apply my-6 text-center;
+  min-height: 90px;
+  position: relative;
+}
+
+.ad-placeholder {
+  @apply bg-gray-100 rounded-lg p-4;
+  border: 1px dashed #d1d5db;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-placeholder::before {
+  content: "Advertisement";
+  @apply text-xs text-gray-500 uppercase tracking-wide;
+}
+
+.adsbygoogle {
+  display: block !important;
+}
+
+/* Ensure ads don't interfere with main content */
+.ad-container[data-ad-slot*="article_top"] {
+  @apply mb-8;
+}
+
+.ad-container[data-ad-slot*="article_middle"] {
+  @apply my-8;
+}
+
+.ad-container[data-ad-slot*="sidebar"] {
+  position: sticky;
+  top: 2rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .ad-container[data-ad-slot*="sidebar"] {
+    position: static;
+    @apply my-6;
+  }
+}
+
+/* Prevent CLS (Cumulative Layout Shift) */
+.ad-container {
+  contain: layout style paint;
+}
+</style>

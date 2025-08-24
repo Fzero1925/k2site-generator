@@ -1,0 +1,145 @@
+---
+import SEOHead from '@/components/SEOHead.astro';
+import ConsentBanner from '@/components/ConsentBanner.astro';
+import { generateSEOData } from '@/lib/seo';
+import type { PostFrontmatter } from '@/types/config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  frontmatter?: PostFrontmatter;
+  jsonLD?: string;
+}
+
+const { title, description, frontmatter, jsonLD } = Astro.props;
+const seoData = generateSEOData(frontmatter, title, description);
+
+const config = (await import('@/lib/config')).getConfig();
+---
+
+<!DOCTYPE html>
+<html lang={config.site.language}>
+  <head>
+    <SEOHead seo={seoData} jsonLD={jsonLD} />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- Header -->
+      <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+              <a href="/" class="text-xl font-bold text-gray-900 hover:text-blue-600">
+                {config.site.name}
+              </a>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-8">
+              <a href="/" class="text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium">
+                首页
+              </a>
+              <a href="/about" class="text-gray-500 hover:text-blue-600 px-3 py-2 text-sm font-medium">
+                关于
+              </a>
+              <a href="/contact" class="text-gray-500 hover:text-blue-600 px-3 py-2 text-sm font-medium">
+                联系
+              </a>
+            </nav>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+              <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Mobile menu -->
+          <div class="mobile-menu hidden md:hidden pb-4">
+            <div class="space-y-1">
+              <a href="/" class="block px-3 py-2 text-base font-medium text-gray-900 hover:text-blue-600">首页</a>
+              <a href="/about" class="block px-3 py-2 text-base font-medium text-gray-500 hover:text-blue-600">关于</a>
+              <a href="/contact" class="block px-3 py-2 text-base font-medium text-gray-500 hover:text-blue-600">联系</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="min-h-screen">
+        <slot />
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-gray-50 border-t border-gray-200 mt-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Site Info -->
+            <div class="col-span-1 md:col-span-2">
+              <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                {config.site.name}
+              </h3>
+              <p class="mt-4 text-gray-500 text-sm">
+                高质量内容聚合平台，为您提供有价值的信息和资源。
+              </p>
+            </div>
+
+            <!-- Links -->
+            <div>
+              <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                网站导航
+              </h3>
+              <ul class="mt-4 space-y-2">
+                <li><a href="/" class="text-gray-500 hover:text-blue-600 text-sm">首页</a></li>
+                <li><a href="/about" class="text-gray-500 hover:text-blue-600 text-sm">关于我们</a></li>
+                <li><a href="/contact" class="text-gray-500 hover:text-blue-600 text-sm">联系我们</a></li>
+                <li><a href="/rss.xml" class="text-gray-500 hover:text-blue-600 text-sm">RSS订阅</a></li>
+              </ul>
+            </div>
+
+            <!-- Legal -->
+            <div>
+              <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                法律条款
+              </h3>
+              <ul class="mt-4 space-y-2">
+                <li><a href="/privacy" class="text-gray-500 hover:text-blue-600 text-sm">隐私政策</a></li>
+                <li><a href="/terms" class="text-gray-500 hover:text-blue-600 text-sm">使用条款</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-8 border-t border-gray-200">
+            <p class="text-center text-sm text-gray-500">
+              © {new Date().getFullYear()} {config.site.name}. All rights reserved.
+              Made with ❤️ using K2Site.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Consent Banner -->
+    <ConsentBanner />
+
+    <!-- Mobile menu toggle script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

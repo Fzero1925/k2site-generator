@@ -1,0 +1,60 @@
+{
+  "name": "k2site",
+  "version": "1.0.0",
+  "description": "关键词到网站自动生成器 - 从关键词快速生成SEO优化的静态站点",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "generate": "tsx src/cli/generate.ts",
+    "k2site": "tsx src/cli/index.ts",
+    "lint": "eslint . --ext ts,astro --report-unused-disable-directives --max-warnings 0",
+    "typecheck": "astro check && tsc --noEmit",
+    "setup": "node setup-wizard.cjs",
+    "quick-start": "node quick-start.cjs",
+    "demo": "node demo.cjs",
+    "deploy": "node auto-deploy.cjs"
+  },
+  "bin": {
+    "k2site": "./dist/cli/index.js"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.7.0",
+    "@astrojs/mdx": "^3.0.0",
+    "@astrojs/node": "^8.2.5",
+    "@astrojs/sitemap": "^3.1.4",
+    "@astrojs/tailwind": "^5.1.0",
+    "@tailwindcss/typography": "^0.5.13",
+    "astro": "^4.11.0",
+    "commander": "^11.0.0",
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0",
+    "markdown-it": "^14.1.0",
+    "slugify": "^1.6.6",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.5.2"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/markdown-it": "^14.1.1",
+    "@types/node": "^20.14.9",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
+    "@typescript-eslint/parser": "^7.15.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-astro": "^1.2.3",
+    "tsx": "^4.16.2"
+  },
+  "keywords": [
+    "astro",
+    "seo",
+    "static-site-generator",
+    "adsense",
+    "content-generation",
+    "cli"
+  ],
+  "author": "K2Site Generator",
+  "license": "MIT"
+}

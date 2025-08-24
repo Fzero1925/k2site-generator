@@ -1,0 +1,36 @@
+site:
+  name: "K2Site 演示站"
+  domain: "https://example.com"
+  language: "zh-CN"
+  author:
+    name: "K2Site Generator"
+    url: "/about"
+  themeColor: "#0ea5e9"
+
+seo:
+  brand: "K2Site 演示站"
+  ogDefaultImage: "/og-default.jpg"
+  twitterHandle: "@k2site"
+
+monetization:
+  adsense:
+    enabled: false
+    clientId: "ca-pub-xxxxxxxxxxxxxxxx"
+    slots:
+      article_top: "1234567890"
+      article_middle: "1234567891"
+      sidebar_sticky: "1234567892"
+  consent:
+    mode: "basic"
+    cmpProvider: ""
+
+content:
+  minWords: 1200
+  addTOC: true
+  addFAQ: true
+  images:
+    source: "unsplash"
+    numPerPost: 2
+
+build:
+  target: "cloudflare"
